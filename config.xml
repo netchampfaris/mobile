@@ -85,4 +85,7 @@
         <splash src="res/ios/splash/Default-Landscape-736h.png" width="2208" height="1242"/>
     </platform>
 
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#ffffff" />
+    <preference name="StatusBarStyle" value="default" />
 </widget>

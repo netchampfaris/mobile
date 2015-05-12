@@ -1,5 +1,0 @@
-var desk = {
-	load: function() {
-
-	}
-}

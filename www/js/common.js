@@ -25,14 +25,14 @@ var frappe = {
 	},
 }
 
-function getCookie(name) {
-	return getCookies()[name];
+function getCookie(name, source) {
+	return getCookies(source)[name];
 }
 
 frappe.get_cookie = getCookie;
 
-function getCookies() {
-	var c = document.cookie, v = 0, cookies = {};
+function getCookies(source) {
+	var c = source || document.cookie, v = 0, cookies = {};
 	if (document.cookie.match(/^\s*\$Version=(?:"1"|1);\s*(.*)/)) {
 		c = RegExp.$1;
 		v = 1;
