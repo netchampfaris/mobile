@@ -1,6 +1,5 @@
 var app = {
     init: function() {
-		alert(window.location.href);
         if(localStorage.server) {
             app.setup_login();
         } else {
@@ -25,10 +24,10 @@ var app = {
 			}).success(function(data, status, xhr) {
 				localStorage.user = $("#usr").val();
 				var cookie_source = xhr.getResponseHeader('Set-Cookie');
-				localStorage.session_id = frappe.get_cookie("sid", cookie_source);
+				localStorage.session_id = common.get_cookie("sid", cookie_source);
 				app.start_desk();
 			}).error(function() {
-				frappe.msgprint("Invalid Login");
+				common.msgprint("Invalid Login");
 			}).always(function() {
 				$("#usr").val("");
 				$("#pwd").val("");
@@ -111,10 +110,10 @@ var app = {
 			"; expires=Fri, 31 Dec 9999 23:59:59 GMT";
 	},
 	start_desk: function() {
-		window.location.href = localStorage.server + "/desk";
+		window.location.href = "desk.html";
 	},
     retry_server: function() {
-        frappe.msgprint("Does not seem like a valid server address. Please try again.");
+        common.msgprint("Does not seem like a valid server address. Please try again.");
 		app.show_server();
     },
 	show_server: function() {

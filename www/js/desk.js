@@ -1,0 +1,51 @@
+window.desk = {
+	init: function() {
+		alert("go");
+		desk.start();
+	},
+	start: function() {
+		$.ajax({
+			method: "GET",
+			url: localStorage.server + "/api/method/frappe.templates.pages.desk.get_desk_assets",
+			data: {
+				build_version: localStorage._build_version || "000"
+			}
+		}).success(function(data) {
+			// desk startup
+			window._version_number = data.message.build_version;
+			window.app = true;
+			if(!window.frappe) window.frappe = {};
+			window.frappe.boot = data.message.boot;
+
+			if(localStorage._build_version != data.message.build_version) {
+				localStorage._build_version = data.message.build_version;
+				localStorage.desk_assets = JSON.stringify(data.message.assets);
+				desk.desk_assets = data.message.assets;
+			}
+			desk.setup_assets();
+		}).error(function() {
+			desk.logout();
+		});
+	},
+	setup_assets: function() {
+		if(!desk.desk_assets) {
+			desk.desk_assets = JSON.parse(localStorage.desk_assets);
+		}
+		for(key in desk.desk_assets) {
+			var asset = desk.desk_assets[key];
+			if(asset.type == "js") {
+				common.load_script(asset.data);
+			} else {
+				common.load_style(asset.data);
+			}
+		}
+		// start app
+		frappe.start_app();
+	},
+	logout: function() {
+		localStorage.session_id = null;
+		window.location.href = "/index.html"
+	}
+}
+
+$(document).ready(function() { desk.init() });

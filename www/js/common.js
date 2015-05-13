@@ -1,4 +1,4 @@
-var frappe = {
+var common = {
 	get_modal: function(title, body_html) {
 		var modal = $('<div class="modal" style="overflow: auto;" tabindex="-1">\
 			<div class="modal-dialog">\
@@ -21,15 +21,31 @@ var frappe = {
 		if($.isArray(html)) {
 			html = html.join("<hr>")
 		}
-		return frappe.get_modal(title || "Message", html).modal("show");
+		return common.get_modal(title || "Message", html).modal("show");
 	},
+	load_script: function(txt) {
+		var el = document.createElement('script');
+		el.appendChild(document.createTextNode(txt));
+		// execute the script globally
+		document.getElementsByTagName('head')[0].appendChild(el);
+	},
+	load_style: function(txt) {
+		var se = document.createElement('style');
+		se.type = "text/css";
+		if (se.styleSheet) {
+			se.styleSheet.cssText = txt;
+		} else {
+			se.appendChild(document.createTextNode(txt));
+		}
+		document.getElementsByTagName('head')[0].appendChild(se);
+	}
 }
 
 function getCookie(name, source) {
 	return getCookies(source)[name];
 }
 
-frappe.get_cookie = getCookie;
+common.get_cookie = getCookie;
 
 function getCookies(source) {
 	var c = source || document.cookie, v = 0, cookies = {};
