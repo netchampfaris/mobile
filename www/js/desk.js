@@ -1,6 +1,6 @@
 window.desk = {
 	init: function() {
-		alert("go");
+		//alert("go");
 		desk.start();
 	},
 	start: function() {
@@ -36,11 +36,20 @@ window.desk = {
 			if(asset.type == "js") {
 				common.load_script(asset.data);
 			} else {
-				common.load_style(asset.data);
+				var css = asset.data.replace(/url['"\(]+([^'"\)]+)['"\)]+/g, function(match, p1) {
+					var fixed = (p1.substr(0, 1)==="/") ? (localStorage.server + p1) : (localStorage.server + "/" + p1);
+				});
+				common.load_style(css);
 			}
 		}
 		// start app
+		frappe.request.url = localStorage.server + "/";
+		frappe.base_url = localStorage.server;
 		frappe.start_app();
+        frappe.app.redirect_to_login = function() {
+			localStorage.session_id = null;
+        	window.location.href = "index.html";
+		}
 	},
 	logout: function() {
 		localStorage.session_id = null;
