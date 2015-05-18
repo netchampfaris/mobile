@@ -3,9 +3,10 @@ var app = {
         if(localStorage.server) {
             app.setup_login();
         } else {
-            $(".div-select-server").removeClass("hide");
+			app.show_server();
         }
         app.bind_events();
+		common.handle_external_links();
     },
     bind_events: function() {
 		app.bind_select_server();
@@ -19,7 +20,8 @@ var app = {
 				url: localStorage.server + "/api/method/login",
 				data: {
 					usr: $("#usr").val(),
-					pwd: $("#pwd").val()
+					pwd: $("#pwd").val(),
+					device: "mobile"
 				}
 			}).success(function(data, status, xhr) {
 				localStorage.user = $("#usr").val();
@@ -86,6 +88,7 @@ var app = {
 		}
     },
 	show_login: function() {
+		$(".app").removeClass("hide");
         $(".div-select-server").addClass("hide");
         $(".div-login").removeClass("hide");
 	},
@@ -117,6 +120,7 @@ var app = {
 		app.show_server();
     },
 	show_server: function() {
+		$(".app").removeClass("hide");
         $(".div-select-server").removeClass("hide");
         $(".div-login").addClass("hide");
         $("#server").val("");

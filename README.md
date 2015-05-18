@@ -11,4 +11,5 @@ Install Plugins:
 
 ```
 $ cordova plugin add cordova-plugin-statusbar
+$ cordova plugin add cordova-plugin-inappbrowser
 ```

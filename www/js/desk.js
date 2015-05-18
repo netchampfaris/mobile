@@ -2,6 +2,7 @@ window.desk = {
 	init: function() {
 		//alert("go");
 		desk.start();
+		common.handle_external_links();
 	},
 	start: function() {
 		$.ajax({
@@ -43,9 +44,14 @@ window.desk = {
 			}
 		}
 		// start app
+		// patch urls
 		frappe.request.url = localStorage.server + "/";
 		frappe.base_url = localStorage.server;
+
+		// render the desk
 		frappe.start_app();
+
+		// override logout
         frappe.app.redirect_to_login = function() {
 			localStorage.session_id = null;
         	window.location.href = "index.html";

@@ -38,6 +38,33 @@ var common = {
 			se.appendChild(document.createTextNode(txt));
 		}
 		document.getElementsByTagName('head')[0].appendChild(se);
+	},
+	handle_external_links: function() {
+		$("body").on("click", "a", function(e) {
+			href = $(this).attr("href");
+			if(href && href.substr(0)!=="#") {
+				cordova.InAppBrowser.open(common.get_full_url(href), '_blank', 'location=no');
+				e.preventDefault();
+				e.stopPropagation();
+				return false;
+			}
+		});
+		window.open = cordova.InAppBrowser.open;
+	},
+	get_base_url: function() {
+		var url= (common.base_url || window.location.href).split('#')[0].split('?')[0].split('desk')[0];
+		if(url.substr(url.length-1, 1)=='/') url = url.substr(0, url.length-1)
+		return url
+	},
+
+	// returns absolute url
+	get_full_url: function(url) {
+		if(url.indexOf("http://")===0 || url.indexOf("https://")===0) {
+			return url;
+		}
+		return url.substr(0,1)==="/" ?
+			(common.get_base_url() + url) :
+			(common.get_base_url() + "/" + url);
 	}
 }
 
