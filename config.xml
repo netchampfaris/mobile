@@ -49,6 +49,10 @@
     </platform>
 
     <platform name="ios">
+        <preference name="StatusBarOverlaysWebView" value="false" />
+        <preference name="StatusBarBackgroundColor" value="#ffffff" />
+        <preference name="StatusBarStyle" value="default" />
+
         <icon src="res/ios/icons/appicon.png" width="57" height="57" />
         <icon src="res/ios/icons/appicon@2x.png" width="114" height="114" />
 
@@ -85,7 +89,4 @@
         <splash src="res/ios/splash/Default-Landscape-736h.png" width="2208" height="1242"/>
     </platform>
 
-    <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#ffffff" />
-    <preference name="StatusBarStyle" value="default" />
 </widget>
