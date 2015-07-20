@@ -15,7 +15,7 @@ window.desk = {
 			// desk startup
 			window._version_number = data.message.build_version;
 			window.app = true;
-			if(!window.frappe) window.frappe = {};
+			if(!window.frappe) { window.frappe = {}; }
 			window.frappe.boot = data.message.boot;
 
 			if(localStorage._build_version != data.message.build_version) {
@@ -49,7 +49,7 @@ window.desk = {
 		frappe.base_url = localStorage.server;
 
 		// render the desk
-		frappe.start_app();
+		//frappe.start_app();
 
 		// override logout
         frappe.app.redirect_to_login = function() {

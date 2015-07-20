@@ -40,44 +40,56 @@ var app = {
 	bind_select_server: function() {
         $(".btn-select-server").on("click", function() {
             // check if erpnext / frappe server
-            var server = app.get_server_value();
 
-            if(server) {
-                $.ajax(server + "/api/method/version")
-                    .success(function(data) {
-                        if(data.message) {
-                            localStorage.server = server;
-                            app.setup_login();
-                        } else {
-                            app.retry_server();
-                        }
-                    })
-                    .error(function() {
-                        app.retry_server();
-                    });
+            var server = $("#server").val();
+            if(!server) {
+                app.retry_server();
+                return false;
             }
+
+            function select(server) {
+                localStorage.server = app.strip_trailing_slash(server);
+                app.setup_login();
+            }
+
+            if(server.substr(0, 7)!== "http://" && server.substr(0, 8)!== "https://") {
+                // http / https not provided
+                // try https
+                app.verify_server("https://" + server, select,
+                    function() {
+                        // try http
+                        app.verify_server("http://" + server, select, app.retry_server);
+                    }
+                );
+            } else {
+                app.verify_server(server, select, app.retry_server);
+            }
+
             return false;
         });
 	},
+    verify_server: function(server, valid, invalid) {
+        console.log(server);
+        $.ajax(server + "/api/method/version")
+            .success(function(data) {
+                console.log(data);
+                if(data.message) {
+                    console.log(server);
+                    valid(server);
+                } else {
+                    invalid();
+                };
+            })
+            .error(invalid);
+    },
 	bind_change_server: function() {
 		$(".change-server").on("click", function() {
 			localStorage.server = null;
-			app.show_server();
+			app.show_server(true);
 			return false;
 		});
 	},
-    get_server_value: function() {
-        var server = $("#server").val();
-        if(!server) {
-            app.retry_server();
-            return false;
-        }
-
-        if(server.substr(0, 7)!== "http://" && server.substr(0, 7)!== "https://") {
-            server = "https://" + server;
-        }
-
-        // remove trailing slashes
+    strip_trailing_slash: function(server) {
         return server.replace(/(http[s]?:\/\/[^\/]*)(.*)/, "$1");
     },
     setup_login: function() {
@@ -119,11 +131,13 @@ var app = {
         common.msgprint("Does not seem like a valid server address. Please try again.");
 		app.show_server();
     },
-	show_server: function() {
+	show_server: function(clear) {
 		$(".app").removeClass("hide");
         $(".div-select-server").removeClass("hide");
-        $(".div-login").addClass("hide");
-        $("#server").val("");
+        if(clear) {
+            $(".div-login").addClass("hide");
+        }
+        //$("#server").val("");
 	}
 };
 

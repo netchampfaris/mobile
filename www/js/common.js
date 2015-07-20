@@ -42,7 +42,7 @@ var common = {
 	handle_external_links: function() {
 		$("body").on("click", "a", function(e) {
 			href = $(this).attr("href");
-			if(href && href.substr(0)!=="#") {
+			if(href && href.substr(0, 1)!=="#") {
 				cordova.InAppBrowser.open(common.get_full_url(href), '_blank', 'location=no');
 				e.preventDefault();
 				e.stopPropagation();
