@@ -41,6 +41,8 @@ var app = {
         $(".btn-select-server").on("click", function() {
             // check if erpnext / frappe server
 
+            $(this).prop("disabled", true);
+
             var server = $("#server").val();
             if(!server) {
                 app.retry_server();
@@ -69,18 +71,19 @@ var app = {
         });
 	},
     verify_server: function(server, valid, invalid) {
-        console.log(server);
-        $.ajax(server + "/api/method/version")
+        $.ajax({
+    			method: "GET",
+    			url: server + "/api/method/version",
+    		})
             .success(function(data) {
-                console.log(data);
                 if(data.message) {
-                    console.log(server);
                     valid(server);
                 } else {
                     invalid();
                 };
             })
-            .error(invalid);
+            .fail(function() { invalid() })
+            .error(function() { invalid() });
     },
 	bind_change_server: function() {
 		$(".change-server").on("click", function() {
@@ -133,6 +136,7 @@ var app = {
     },
 	show_server: function(clear) {
 		$(".app").removeClass("hide");
+        $(".btn-select-server").prop("disabled", false);
         $(".div-select-server").removeClass("hide");
         if(clear) {
             $(".div-login").addClass("hide");

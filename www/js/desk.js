@@ -49,7 +49,7 @@ window.desk = {
 		frappe.base_url = localStorage.server;
 
 		// render the desk
-		//frappe.start_app();
+		frappe.start_app();
 
 		// override logout
         frappe.app.redirect_to_login = function() {
