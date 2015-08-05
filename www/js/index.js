@@ -1,6 +1,6 @@
 var app = {
     init: function() {
-        if(localStorage.server) {
+        if(localStorage.getItem("server")) {
             app.setup_login();
         } else {
 			app.show_server();
