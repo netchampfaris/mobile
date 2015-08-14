@@ -3,6 +3,7 @@ window.desk = {
 		//alert("go");
 		desk.start();
 		common.handle_external_links();
+
 	},
 	start: function() {
 		$.ajax({
@@ -16,6 +17,7 @@ window.desk = {
 			window._version_number = data.message.build_version;
 			window.app = true;
 			if(!window.frappe) { window.frappe = {}; }
+			window.frappe.list_desktop = device.platform.toLowerCase()==="ios";
 			window.frappe.boot = data.message.boot;
 
 			if(localStorage._build_version != data.message.build_version) {
