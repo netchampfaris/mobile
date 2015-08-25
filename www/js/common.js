@@ -17,10 +17,16 @@ var common = {
 		return modal;
 	},
 	msgprint: function(html, title) {
-		if(html.substr(0,1)==="[") html = JSON.parse(html);
+		if(html.substr(0,1)==="[")
+			html = JSON.parse(html);
 		if($.isArray(html)) {
 			html = html.join("<hr>")
 		}
+
+		// hide existing modals
+		$(".modal:visible").modal("hide");
+
+		// show new modal
 		return common.get_modal(title || "Message", html).modal("show");
 	},
 	load_script: function(txt) {
@@ -43,7 +49,8 @@ var common = {
 		$("body").on("click", "a", function(e) {
 			href = $(this).attr("href");
 			if(href && href.substr(0, 1)!=="#") {
-				cordova.InAppBrowser.open(common.get_full_url(href), '_blank', 'location=no');
+				cordova.InAppBrowser.open(common.get_full_url(href), '_blank',
+					'location=yes');
 				e.preventDefault();
 				e.stopPropagation();
 				return false;

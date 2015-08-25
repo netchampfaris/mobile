@@ -49,6 +49,7 @@ window.desk = {
 		// patch urls
 		frappe.request.url = localStorage.server + "/";
 		frappe.base_url = localStorage.server;
+		common.base_url = localStorage.server;
 
 		// render the desk
 		frappe.start_app();

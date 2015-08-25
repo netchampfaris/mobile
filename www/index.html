@@ -14,35 +14,28 @@
     </head>
     <body>
         <div class="app container hide">
-            <div class="logo" style="text-align: center;">
-                <img src="img/desk-splash.png" style="max-width: 100%; max-height: 20%;
-                    padding: 30px; padding-top: 50px;">
-            </div>
-            <div class="div-select-server hide">
-                <h3>Account</h3>
+            <div class="div-select-server hide vertical-center">
+                <p class="title">Select Server</p>
                 <form>
                     <div class="form-group">
-                        <label for="server">Server Address</label>
                         <input type="text" class="form-control" mandatory
                             id="server" placeholder="myaccount.erpnext.com">
                     </div>
                     <button type="submit" class="btn btn-primary btn-select-server">
                         Go</button>
                 </form>
-                <p><br><a href="https://erpnext.com/signup?plan=P5" class="text-muted">Sign Up for a free ERPNext trial</a></p>
+                <p><br><a href="https://erpnext.com/signup?plan=P5" class="text-muted">Sign up for a free ERPNext trial</a></p>
             </div>
-            <div class="div-login hide">
-                <h3>Login</h3>
+            <div class="div-login hide vertical-center">
+                <p class="title">Sign in to ERPNext</p>
                 <form>
                     <div class="form-group">
-                        <label for="server">Email Address</label>
                         <input type="text" class="form-control"
-                            id="usr" placeholder="name@example.com">
+                            id="usr" placeholder="you@example.com">
                     </div>
                     <div class="form-group">
-                        <label for="server">Password</label>
                         <input type="password" class="form-control"
-                            id="pwd">
+                            id="pwd" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-primary btn-login">
                         Login</button>
