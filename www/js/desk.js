@@ -19,6 +19,7 @@ window.desk = {
 			if(!window.frappe) { window.frappe = {}; }
 			window.frappe.list_desktop = device.platform.toLowerCase()==="ios";
 			window.frappe.boot = data.message.boot;
+			window.dev_server = data.message.boot.developer_mode;
 
 			if(localStorage._build_version != data.message.build_version) {
 				localStorage._build_version = data.message.build_version;
