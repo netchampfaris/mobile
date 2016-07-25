@@ -11,6 +11,8 @@ http://ionicframework.com/docs/guide/publishing.html
 
     $ /usr/local/Cellar/android-sdk/24.1.2/build-tools/22.0.1/zipalign -v 4 /private/var/www/frappe/mobile/platforms/android/build/outputs/apk/android-release-unsigned.apk erpnext.apk
 
+alias = alias_name
+password = nandr1152
 
 ## iOS
 
