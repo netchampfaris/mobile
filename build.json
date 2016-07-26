@@ -1,0 +1,11 @@
+{
+    "android": {
+        "release": {
+            "keystore": "release/my-release-key.keystore",
+            "storePassword": "nandr1152",
+            "alias": "alias_name",
+            "password" : "nandr1152",
+            "keystoreType": ""
+        }
+    }
+}

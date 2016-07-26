@@ -56,7 +56,9 @@ var common = {
 				return false;
 			}
 		});
-		window.open = cordova.InAppBrowser.open;
+		document.addEventListener("deviceready", function () {
+			window.open = cordova.InAppBrowser.open;
+		});
 	},
 	get_base_url: function() {
 		var url= (common.base_url || window.location.href).split('#')[0].split('?')[0].split('desk')[0];
@@ -72,7 +74,58 @@ var common = {
 		return url.substr(0,1)==="/" ?
 			(common.get_base_url() + url) :
 			(common.get_base_url() + "/" + url);
+	},
+
+	write_file: function (filename, data, callback) {
+		document.addEventListener("deviceready", function () {
+
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+				fs.root.getFile(filename, { create: true, exclusive: false }, function (fileEntry) {
+					write(fileEntry, data);
+				}, handleError);
+			}, handleError);
+
+			function write(fileEntry, data) {
+				fileEntry.createWriter(function (fileWriter) {
+					fileWriter.onwriteend = function() {
+						if(callback){
+							callback();
+						}
+					};
+					fileWriter.onerror = function (e) {
+						console.log("Failed file read: " + e.toString());
+					};
+					var dataObj = new Blob([data], { type: 'text/plain' });
+					fileWriter.write(dataObj);
+				});
+			}
+		}, false);
+	},
+
+	read_file: function (filename, callback) {
+		document.addEventListener("deviceready", function () {
+
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+				fs.root.getFile(filename, {}, function (fileEntry) {
+					readFile(fileEntry);
+			    }, handleError);
+			}, handleError);
+
+			function readFile(fileEntry) {
+				fileEntry.file(function (file) {
+					var reader = new FileReader();
+					reader.onloadend = function() {
+						callback(this.result);
+					};
+					reader.readAsText(file);
+				}, handleError);
+			}
+		}, false);
 	}
+}
+
+var handleError = function (e) {
+	console.log(e);
 }
 
 function getCookie(name, source) {
