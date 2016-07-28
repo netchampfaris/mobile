@@ -31,8 +31,8 @@ var app = {
 			}).error(function() {
 				common.msgprint("Invalid Login");
 			}).always(function() {
-				$("#usr").val("");
-				$("#pwd").val("");
+				// $("#usr").val("");
+				// $("#pwd").val("");
 			});
 			return false;
 		});
