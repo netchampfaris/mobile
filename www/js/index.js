@@ -15,6 +15,9 @@ var app = {
     },
 	bind_login: function() {
 		$(".btn-login").on("click", function() {
+
+			$me = $(this);
+			$me.prop("disabled", true);
 			$.ajax({
 				method: "POST",
 				url: localStorage.server + "/api/method/login",
@@ -30,6 +33,7 @@ var app = {
 				app.start_desk();
 			}).error(function() {
 				common.msgprint("Invalid Login");
+				$me.prop("disabled", false);
 			}).always(function() {
 				// $("#usr").val("");
 				// $("#pwd").val("");
