@@ -38,6 +38,24 @@ html, body {
 	font-size: 1.3em;
 }
 
+.recent-server-list {
+	margin-top: 20px;
+}
+
+.recent-server-list li {
+	margin-bottom: 7px;
+	font-size: 14px;
+}
+
+.recent-server-list .text-muted {
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+.current-server, .change-server {
+	font-size: 14px;
+}
+
 /*.app a, .app div, .app p, .app h1, .app h2, .app h3 {
 	color: #fff;
 }

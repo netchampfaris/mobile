@@ -49,10 +49,6 @@ var app = {
                 return false;
             }
 
-            function select(server) {
-                localStorage.server = app.strip_trailing_slash(server);
-                app.setup_login();
-            }
 
             if(server.substr(0, 7)!== "http://" && server.substr(0, 8)!== "https://") {
                 // http / https not provided
@@ -69,6 +65,17 @@ var app = {
 
             return false;
         });
+		$(".recent-server-list").on("click", "a", function() {
+			$this = $(this);
+			$this.prop("disabled", true);
+			app.verify_server($this.text(), select, app.retry_server);
+		});
+
+		function select(server) {
+			localStorage.server = app.strip_trailing_slash(server);
+			app.save_server_in_recent(localStorage.server);
+			app.setup_login();
+		}
 	},
     verify_server: function(server, valid, invalid) {
         $.ajax({
@@ -87,7 +94,7 @@ var app = {
     },
 	bind_change_server: function() {
 		$(".change-server").on("click", function() {
-			localStorage.server = null;
+			localStorage.server = "";
 			app.show_server(true);
 			return false;
 		});
@@ -95,6 +102,20 @@ var app = {
     strip_trailing_slash: function(server) {
         return server.replace(/(http[s]?:\/\/[^\/]*)(.*)/, "$1");
     },
+	save_server_in_recent: function(server) {
+		server = server.toLowerCase().trim();
+
+		var recent_servers = localStorage.recent_servers ?
+			JSON.parse(localStorage.recent_servers) : [];
+
+		var index = recent_servers.indexOf(server);
+		if(index !== -1) {
+			recent_servers.splice(index, 1);
+		}
+		recent_servers.push(server);
+
+		localStorage.setItem("recent_servers", JSON.stringify(recent_servers));
+	},
     setup_login: function() {
 		if(localStorage.server && localStorage.session_id) {
 			app.if_session_valid(app.start_desk, app.show_login);
@@ -106,6 +127,7 @@ var app = {
 		$(".app").removeClass("hide");
         $(".div-select-server").addClass("hide");
         $(".div-login").removeClass("hide");
+		$(".current-server").text(localStorage.server);
 	},
 	if_session_valid: function(if_yes, if_no) {
 		app.set_sid_cookie();
@@ -141,7 +163,19 @@ var app = {
         if(clear) {
             $(".div-login").addClass("hide");
         }
-        //$("#server").val("");
+		app.show_recent_servers();
+	},
+	show_recent_servers: function() {
+		if(localStorage.recent_servers) {
+			var recent_servers = JSON.parse(localStorage.recent_servers);
+			recent_servers.reverse().splice(2);
+
+			var html = "<li class='text-muted'>Recent:</li>"
+			$.each(recent_servers, function(i, server) {
+				html += '<li><a>'+server+'</a></li>';
+			});
+			$('.recent-server-list').empty().append(html).removeClass('hide');
+		}
 	}
 };
 

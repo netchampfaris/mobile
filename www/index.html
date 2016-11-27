@@ -24,6 +24,8 @@
                     <button type="submit" class="btn btn-primary btn-select-server">
                         Go</button>
                 </form>
+                <ul class="recent-server-list list-unstyled hide">
+                </ul>
                 <p><br><a href="https://erpnext.com/signup?plan=P5" class="text-muted">Sign up for a free ERPNext trial</a></p>
             </div>
             <div class="div-login hide vertical-center">
@@ -40,7 +42,10 @@
                     <button type="submit" class="btn btn-primary btn-login">
                         Login</button>
                 </form>
-                <p><a href="#" class="change-server"><br>Change Server</a></p>
+                <p>
+                    <br><span class="current-server text-muted"></span>
+                    <br><a href="#" class="change-server">Change</a>
+                </p>
             </div>
         </div>
     </body>
